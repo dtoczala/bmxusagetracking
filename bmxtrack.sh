@@ -12,14 +12,15 @@
 # Set default values to be used if no alternative is passed in on the command line
 endpoint="https://api.ng.bluemix.net"
 org="myOrg"
-apiKeyFile="myApiKey.json"
+apiKeyFile="apiKey.json"
 log_file="bmxtrack.log"
+space="dev"
 help=""
 
 #
 # Parse any arguments passed in on the command line
 #
-while getopts he:l:a:o: option
+while getopts he:l:a:o:s: option
 do
  case "${option}"
  in
@@ -28,6 +29,7 @@ do
  l) log_file=${OPTARG};;
  a) apiKeyFile=${OPTARG};;
  o) org=${OPTARG};;
+ s) space=${OPTARG};;
  esac
 done
 
@@ -52,6 +54,7 @@ echo "Endpoint: $endpoint" 2>&1 | tee -a $log_file
 echo "Log file: $log_file" 2>&1 | tee -a $log_file
 echo "ApiKey file: $apiKeyFile" 2>&1 | tee -a $log_file
 echo "Organization: $org" 2>&1 | tee -a $log_file
+echo "Space: $space" 2>&1 | tee -a $log_file
 echo " " 2>&1 | tee -a $log_file
 
 #
@@ -65,36 +68,25 @@ echo "  "  2>&1 | tee -a $log_file
 # Log into Bluemix
 #
 echo "Logging in using: " $apiKeyFile 2>&1 | tee -a $log_file
-bx login --apikey @$apiKeyFile -s $loginspace  >> $log_file
+bx login --apikey @$apiKeyFile -o $org -s $space >> $log_file
 echo "  "  2>&1 | tee -a $log_file
 
-echo "List existing users for organization: " $org >> $log_file
-bx iam org-users $org >> $log_file
-echo "  "  >> $log_file
-
-echo "Reading input file " $inputfile "..." 2>&1 | tee -a $log_file
+#
+# Now dump out the account usage for the current month
+#
+echo "Checking account usage for this month..." 2>&1 | tee -a $log_file
+bx billing account-usage >> $log_file
 echo "  "  2>&1 | tee -a $log_file
-IFS=","
-while read name space role
-do
-		if [ "$name" != "username" ] # skip the csv file header line
-		then 
-		 	echo "Processing username: $name; space: $space; role: " ${role%?} 2>&1 | tee -a $log_file
-			echo "executing: bx iam org-user-add $name $org" >> $log_file
-			bx iam org-user-add $name $org  >> $log_file
 
-			echo "executing: bx iam space-role-set $name $org $space " ${role%?} >> $log_file
-			bx iam space-role-set $name $org $space ${role%?} >> $log_file
-		else
-			echo " " >> $log_file
-			echo "Skipping cvs file header line" >> $log_file
-			echo " " >> $log_file
-		fi
-done < $inputfile
-
+#
+# Now dump out the org summary for the current month
+#
+echo "Checking Bluemix org summary for this month..." 2>&1 | tee -a $log_file
+bx billing orgs-usage-summary >> $log_file
 echo "  "  2>&1 | tee -a $log_file
-echo "Resulting list of users for organization: " $org >> $log_file
-bx iam org-users $org >> $log_file
-echo " " >> $log_file
+
+#
+# Script completed, wrap up the log file
+#
 echo "Script complete!" 2>&1 | tee -a $log_file
 echo "Look in $log_file file for details of script execution."
