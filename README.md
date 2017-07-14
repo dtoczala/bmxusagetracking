@@ -9,7 +9,9 @@ Based on Bluemix Admin Script by: Leigh Williamson, leighw@us.ibm.com - https://
 
 ### Usage
 bmxtrack.sh [-h ] [-e <endpoint>] [-l <log file>] [-a <apiKey file>] [-o <organization>]
-- or -
+
+**or**
+
 ./bmxtrack.sh [-h ] [-e <endpoint>] [-l <log file>] [-a <apiKey file>] [-o <organization>]
 
 results in logfile.txt
