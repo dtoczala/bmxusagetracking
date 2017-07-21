@@ -28,7 +28,7 @@ If the Bluemix CLI is not up to date, this script will fail or hang.  If this oc
 
 ## bmxusagetrack.py
 
-### Author: Daniel Toczala, dtocala@us.ibm.com or dtoczala@gmail.com
+### Author: Daniel Toczala, dtoczala@us.ibm.com or dtoczala@gmail.com
 
 ### Usage
 TBD
