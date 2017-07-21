@@ -4,7 +4,7 @@ A Bluemix usage tracking script and tools
 
 ## bmxtrack.sh
 
-### Author: Daniel Toczala, dtocala@us.ibm.com or dtoczala@gmail.com
+### Author: Daniel Toczala, dtoczala@us.ibm.com or dtoczala@gmail.com
 Based on Bluemix Admin Script by: Leigh Williamson, leighw@us.ibm.com - https://github.com/leighawilliamson/bmxadmin
 
 ### Usage
