@@ -76,6 +76,7 @@ echo "  "  2>&1 | tee -a $log_file
 #
 echo "Checking account usage for this month..." 2>&1 | tee -a $log_file
 bx billing account-usage >> $log_file
+<<<<<<< Updated upstream
 echo "  "  2>&1 | tee -a $log_file
 
 #
@@ -86,6 +87,19 @@ bx billing orgs-usage-summary >> $log_file
 echo "  "  2>&1 | tee -a $log_file
 
 #
+=======
+echo "  "  2>&1 | tee -a $log_file
+
+#
+# Now dump out the account usage for the current month
+#
+echo "Checking Bluemix org summary for this month..." 2>&1 | tee -a $log_file
+bx billing orgs-usage-summary >> $log_file
+echo "  "  2>&1 | tee -a $log_file
+
+
+#
+>>>>>>> Stashed changes
 # Script completed, wrap up the log file
 #
 echo "Script complete!" 2>&1 | tee -a $log_file
